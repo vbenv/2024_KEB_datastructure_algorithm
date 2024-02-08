@@ -1,16 +1,18 @@
-import mymath
-import time
+import random
 
-
-
-
-if __name__ == "__main__": #메인 파일의 안쪽 코드를 사용하는 모듈
-	n = int(input("Input n : "))
-	r = int(input("Input r : "))
-	#start = time.time()
-	print(f"{n}C{r} = {mymath.nCr(n, r)}")
-	#end = time.time()
-	#print(f"소요시간 : {end - start}")
-	# f = int(input())
-	# print(mymath.factorial(f))
-
+answer = random.randint(1, 100)
+chance = 7
+i = 7
+while chance != 0:
+	chance -= 1
+	print(f'chance left {chance+1}')
+	guess= int(input("Input guess number : "))
+	if guess == answer:
+		print(f'You win. Answer is {answer}, {7-chance}번 만에 맞췄습니다.')
+		break
+	elif guess > answer:
+		print("Down")
+	else:
+		print("Up")
+else:
+	print("Game Over")
