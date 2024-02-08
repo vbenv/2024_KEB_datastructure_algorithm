@@ -11,7 +11,7 @@ def nCr(n, r) -> int:
 	'''
 	numerator = factorial(n)
 	denominator = factorial(n-r) * factorial(r)
-	return numerator / denominator
+	return int(numerator / denominator)
 
 
 if __name__ == "__main__": #메인 파일의 안쪽 코드를 사용하는 모듈
