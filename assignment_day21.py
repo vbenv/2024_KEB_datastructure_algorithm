@@ -1,57 +1,41 @@
-#큐 1번 문제
+#선형 리스트 문제 2
 ## 함수 선언 부분 ##
-def is_queue_full():
-    global SIZE, queue, front, rear
-    if (rear + 1) % SIZE == front: #for문 제거
-        return True
-    else:
-        return False
+def print_poly(p_x):
+    poly_str = "P(x) = "
 
-def is_queue_empty():
-    global SIZE, queue, front, rear
-    if front == rear:
-        return True
-    else:
-        return False
+    for i in range(len(p_x[0])):
+        term = p_x[0][i]	# 항 차수
+        coef = p_x[1][i]	# 계수
 
-def en_queue(data):
-    global SIZE, queue, front, rear
-    if is_queue_full():
-        print("대기 줄이 꽉 찼습니다..")
-        return
-    rear = (rear + 1) % SIZE
-    queue[rear] = data
+        if (coef >= 0):
+            poly_str += "+"
+        poly_str += str(coef) + "x^" + str(term) + " "
 
-def de_queue():
-    global SIZE, queue, front, rear
-    if is_queue_empty():
-        print("바로 입장하시면 됩니다..")
-        return None
-    front = (front + 1) % SIZE
-    data = queue[front]
-    queue[front] = None
-    return data
+    return poly_str
 
-def peek():
-    global SIZE, queue, front, rear
-    if (is_queue_empty()):
-        print("큐가 비었습니다.")
-        return None
-    return queue[(front + 1) % SIZE]
+
+def calc_poly(xVal, p_x):
+    ret_value = 0
+
+    for i in range(len(p_x[0])):
+        term = p_x[0][i]	# 항 차수
+        coef = p_x[1][i]	# 계수
+        ret_value += coef * x_value ** term
+        term -= 1
+
+    return ret_value
+
 
 ## 전역 변수 선언 부분 ##
-SIZE = 5
-queue = ['정국', '뷔', '지민', '진', '슈가']
-front = rear = SIZE
+px = [ [300, 20, 0],
+       [7, -4, 5] ]
 
 ## 메인 코드 부분 ##
 if __name__ == "__main__":
+    pStr = print_poly(px)
+    print(pStr)
 
-    while True:
-        print("대기 줄 상태 :", queue)
-        entrance = de_queue()
-        print(entrance, "이(가) 입장합니다.")
+    x_value = int(input("X 값-->"))
 
-        if front == rear:
-            print("식당 영업 종료!")
-            break
+    px_value = calc_poly(x_value, px)
+    print(px_value)
