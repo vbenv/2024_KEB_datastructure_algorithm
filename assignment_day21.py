@@ -1,62 +1,57 @@
-#단순 연결 리스트 01
-# 사용자가 이름과 이메일을 입력하면 이메일 순서대로 단순 연결 리스트를 생성하는
-# 프로그램을 작성. 이름에서 enter누르면 입력 종료
-class Node():
-    def __init__(self):
-        self.data = None
-        self.link = None
-def print_nodes(start):
-    current = start
-    if current == None:
+#큐 1번 문제
+## 함수 선언 부분 ##
+def is_queue_full():
+    global SIZE, queue, front, rear
+    if (rear + 1) % SIZE == front: #for문 제거
+        return True
+    else:
+        return False
+
+def is_queue_empty():
+    global SIZE, queue, front, rear
+    if front == rear:
+        return True
+    else:
+        return False
+
+def en_queue(data):
+    global SIZE, queue, front, rear
+    if is_queue_full():
+        print("대기 줄이 꽉 찼습니다..")
         return
-    print(current.data, end=' ')
-    while current.link == None:
-        current = current.link
-        print(current.data, end=' ')
-    print()
+    rear = (rear + 1) % SIZE
+    queue[rear] = data
 
-# 입력받는 노드 처리 함수
-def insert_node_list(name_email):
-    global head, current, pre
+def de_queue():
+    global SIZE, queue, front, rear
+    if is_queue_empty():
+        print("바로 입장하시면 됩니다..")
+        return None
+    front = (front + 1) % SIZE
+    data = queue[front]
+    queue[front] = None
+    return data
 
-    node = Node()
-    node.data = name_email
-    if head == None:
-        head = node
-        return
+def peek():
+    global SIZE, queue, front, rear
+    if (is_queue_empty()):
+        print("큐가 비었습니다.")
+        return None
+    return queue[(front + 1) % SIZE]
 
-    if head.data[1] > name_email[1]:
-        node.link = head
-        head = node
-        return
+## 전역 변수 선언 부분 ##
+SIZE = 5
+queue = ['정국', '뷔', '지민', '진', '슈가']
+front = rear = SIZE
 
-    current = head
-    while current.link is not None:
-        pre = current
-        current = current.link
-        if current.data[1] > name_email[1]:
-            pre.link = node
-            node.link = current
-            return
-
-    current.link = node
-
-# 전역 변수 선언
-head, current, pre = None, None, None
-
-
-# 메인 코드 부분
-if __name__=="__main__":
+## 메인 코드 부분 ##
+if __name__ == "__main__":
 
     while True:
-        name = input("name --> ")
-        if name == '':
-            print("Terminate program")
+        print("대기 줄 상태 :", queue)
+        entrance = de_queue()
+        print(entrance, "이(가) 입장합니다.")
+
+        if front == rear:
+            print("식당 영업 종료!")
             break
-        email = input("email --> ")
-        insert_node_list([name, email])
-        print_nodes(head)
-
-
-
-
