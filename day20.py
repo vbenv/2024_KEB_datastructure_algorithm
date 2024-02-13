@@ -1,35 +1,74 @@
-def print_poly(f_x) -> str:
-    term = len(f_x) - 1
-    poly_expression = "f(x) = "
+## 클래스와 함수 선언 부분 ##
+class Node() :
+	def __init__ (self) :
+		self.data = None
+		self.link = None
 
-    for i in range(len(fx)):
-        coefficient = f_x[i]
-
-        if coefficient == 0:
-            term = term - 1
-            continue
-        if coefficient > 0 and i != 0:
-            poly_expression = poly_expression + "+"
-        poly_expression = poly_expression + f'{coefficient}x^{term} '
-        term = term - 1
-
-    return poly_expression
-
-
-def calculation_poly(x_value, f_x) -> int:
-    return_value = 0
-    term = len(f_x) - 1
-
-    for i in range(len(fx)):
-        coefficient = f_x[i]
-        return_value += coefficient * pow(x_value, term)
-        term = term - 1
-
-    return return_value
+def print_nodes(start):
+	current = start
+	if current is None:
+		return
+	print(current.data, end =' ')
+	while current.link is not None:
+		current = current.link #노드를 다음 노드로 연결해주는 것
+		print(current.data, end =' ')
+	print()
 
 
-fx = [2, 3, 4, 0, -9]
+def insert_Node(find_data, insert_data) :
+	global head, current, pre
 
-if __name__ == "__main__":
-    print(print_poly(fx))
-    print(calculation_poly(int(input("x 값 : ")), fx))
+	if head.data is find_data:
+		node = Node()
+		node.data = insert_data
+		node.link = head
+		head = node
+		return
+
+	current = head
+	while current.link is not None:  # 중간 노드 삽입
+		pre = current
+		current = current.link
+		if current.data is find_data:
+			node = Node()
+			node.data = insert_data
+			node.link = current
+			pre.link = node
+			return
+
+	node = Node()  # 마지막 노드 삽입
+	node.data = insert_data
+	current.link = node
+
+head, current, pre = None, None, None
+dataArray = ["태간", "근태", "태우", "성찬"]
+
+
+if __name__ == "__main__" :
+	node = Node()		# 첫 번째 노드
+	node.data = dataArray[0]
+	head = node
+
+	for data in dataArray[1:]:	# 두 번째 이후 노드
+		pre = node
+		node = Node()
+		node.data = data
+		pre.link = node
+
+	print_nodes(head)
+
+insert_Node("다현", "현우")
+print_nodes(head)
+def delete_Node(delete_data):
+	global head, current, pre
+
+	if head.data is delete_data:
+		current = head
+		head = head.link
+		print(f'{delete_data}이(가) 솔로앨범 냄')
+		del current
+		return
+
+delete_Node("태간")
+
+print_nodes(head)
